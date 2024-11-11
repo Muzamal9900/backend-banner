@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  address   String
+  orders    Order[]
+  createdAt DateTime @default(now())
+}
+
+
+model Order {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  amount       Float
+  currency     String
+  status       String  @default("pending")
+  productName  String
+  size         String
+  eyelets      String
+  polePockets  String
+  hemming      String
+  packaging    String
+  cableTies    String
+  artWork      String  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User    @relation(fields: [userId], references: [id])
+  payment      Payment?
+}
+
+
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   Int @unique
+  stripeId  String
+  amount    Float
+  currency  String
+  status    String
+  createdAt DateTime @default(now())
+}
