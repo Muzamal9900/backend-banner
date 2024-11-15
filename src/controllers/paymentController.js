@@ -11,7 +11,6 @@ export const createPayment = async (req, res) => {
     amount: Math.round(amount * 100),
     currency,
   });
-  console.log("ss", paymentIntent);
   try {
     const payment = await prisma.payment.create({
       data: {
@@ -22,7 +21,7 @@ export const createPayment = async (req, res) => {
         status: "pending",
       },
     });
-    await sendPaymentSuccessEmail();
+    await sendPaymentSuccessEmail(parseInt(orderId));
     res.json({ clientSecret: paymentIntent.client_secret, payment });
   } catch (error) {
     console.log("error ", error);
