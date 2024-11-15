@@ -50,6 +50,7 @@ export const createOrder = async (req, res) => {
 
     res.status(201).json({ message: "Order created successfully", order });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Something went wrong" });
   }
 };

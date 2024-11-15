@@ -21,6 +21,7 @@ export const createUser = async (req, res) => {
     password,
     address,
   } = req.body;
+  console.log(req.body);
 
   const existingUser = await prisma.user.findUnique({
     where: {
