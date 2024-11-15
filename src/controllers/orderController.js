@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-const createOrder = async (req, res) => {
+export const createOrder = async (req, res) => {
   const {
     userId,
     amount,
@@ -12,6 +12,7 @@ const createOrder = async (req, res) => {
     hemming,
     packaging,
     cableTies,
+    quantity,
   } = req.body;
 
   if (
@@ -28,24 +29,31 @@ const createOrder = async (req, res) => {
     return res.status(400).json({ message: "All fields are required." });
   }
 
-  const order = await prisma.order.create({
-    data: {
-      userId: parseInt(userId),
-      amount: parseFloat(amount),
-      currency: "₤",
-      productName,
-      size,
-      eyelets,
-      polePockets,
-      hemming,
-      packaging,
-      cableTies,
-      artWork: "dummy",
-      status: "pending",
-    },
-  });
+  try {
+    const order = await prisma.order.create({
+      data: {
+        userId: parseInt(userId),
+        amount: parseFloat(amount),
+        currency: "₤",
+        productName,
+        size,
+        eyelets,
+        polePockets,
+        hemming,
+        packaging,
+        cableTies,
+        quantity,
+        artWork: "dummy",
+        status: "pending",
+      },
+    });
 
-  res.status(201).json({ message: "Order created successfully", order });
+    res.status(201).json({ message: "Order created successfully", order });
+  } catch (error) {
+    res.status(500).json({ error: "Something went wrong" });
+  }
 };
 
-export default createOrder;
+export const deleteOrder = async (req, res) => {
+  await prisma.de;
+};

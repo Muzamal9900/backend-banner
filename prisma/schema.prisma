@@ -8,14 +8,25 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  address   String
-  orders    Order[]
-  createdAt DateTime @default(now())
+  id                    Int      @id @default(autoincrement())
+  name                  String
+  firstName             String
+  lastName              String
+  companyName           String?
+  phone                 String
+  streetAddress         String
+  houseNumberAndStreet  String
+  flatSuiteUnit         String?
+  townOrCity            String
+  county                String?
+  postcode              String
+  email                 String   @unique
+  password              String
+  address               String
+  orders                Order[]
+  createdAt             DateTime @default(now())
 }
+
 
 
 model Order {
@@ -31,6 +42,7 @@ model Order {
   hemming      String
   packaging    String
   cableTies    String
+  quantity      Int
   artWork      String  
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

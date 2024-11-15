@@ -24,7 +24,6 @@ export const createPayment = async (req, res) => {
     await sendPaymentSuccessEmail(parseInt(orderId));
     res.json({ clientSecret: paymentIntent.client_secret, payment });
   } catch (error) {
-    console.log("error ", error);
     await prisma.payment.deleteMany({
       where: {
         orderId: parseInt(orderId),

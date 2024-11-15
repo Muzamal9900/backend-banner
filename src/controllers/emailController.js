@@ -15,7 +15,6 @@ const transporter = nodemailer.createTransport({
 
 export const sendPaymentSuccessEmail = async (orderId) => {
   try {
-    // Fetch order details along with the associated user
     const order = await prisma.order.findUnique({
       where: { id: orderId },
       include: {
@@ -27,8 +26,21 @@ export const sendPaymentSuccessEmail = async (orderId) => {
       throw new Error("Order or user information not found.");
     }
 
-    const { user, productName, size, amount } = order;
-    const { name: userName, email: userEmail } = user;
+    const {
+      user,
+      productName,
+      size,
+      amount,
+      currency,
+      status,
+      eyelets,
+      polePockets,
+      hemming,
+      packaging,
+      cableTies,
+      quantity,
+      createdAt,
+    } = order;
 
     // Define email options
     const mailOptions = {
@@ -40,11 +52,24 @@ export const sendPaymentSuccessEmail = async (orderId) => {
 
         A customer has successfully availed of your service with the following details:
 
-        - Customer Name: ${userName}
+        - Customer Name: ${user.name}
         - Product: ${productName}
         - Size: ${size}
-        - Price: $${amount}
+        - Price: ${currency} ${amount.toFixed(2)}
         - Order ID: ${orderId}
+        - Order Status: ${status}
+        - Eyelets: ${eyelets}
+        - Pole Pockets: ${polePockets}
+        - Hemming: ${hemming}
+        - Packaging: ${packaging}
+        - Cable Ties: ${cableTies}
+        - Quantity: ${quantity}
+        - Order Created At: ${createdAt}
+
+        Thank you for your service!
+
+        Regards,
+        Banner Printing Team
       `,
     };
 
