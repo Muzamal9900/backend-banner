@@ -27,14 +27,13 @@ export const sendPaymentSuccessEmail = async (orderId) => {
       throw new Error("Order or user information not found.");
     }
 
-    // Extract necessary information for the email
     const { user, productName, size, amount } = order;
     const { name: userName, email: userEmail } = user;
 
     // Define email options
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.CUSTOMER_SERVICE_EMAIL,
+      to: process.env.EMAIL_USER,
       subject: `Order Confirmation - Order ID: ${orderId}`,
       text: `
         Banner Printing Team,
