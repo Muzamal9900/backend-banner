@@ -66,6 +66,35 @@ export const createUser = async (req, res) => {
   }
 };
 
+export const updateUser = async (req, res) => {
+  const existingUser = await prisma.user.findUnique({
+    where: {
+      email: req.body.email,
+    },
+  });
+
+  if (existingUser) {
+    return res.status(400).json({
+      message:
+        "An account with this email already exists. Please login or try with another email.",
+    });
+  }
+  const reqBoody = req.body;
+
+  try {
+    const user = await prisma.user.update({
+      data: {
+        ...reqBoody,
+      },
+    });
+
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "User creation failed" });
+  }
+};
+
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
