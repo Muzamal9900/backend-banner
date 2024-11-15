@@ -15,22 +15,23 @@ const transporter = nodemailer.createTransport({
 
 export const sendPaymentSuccessEmail = async (orderId) => {
   try {
+    // Fetch order details along with the associated user
     const order = await prisma.order.findUnique({
       where: { id: orderId },
       include: {
         user: { select: { name: true, email: true } },
-        product: { select: { name: true, size: true, price: true } },
       },
     });
 
-    if (!order || !order.user || !order.product) {
-      throw new Error("Order, user, or product information not found.");
+    if (!order || !order.user) {
+      throw new Error("Order or user information not found.");
     }
 
-    const { user, product } = order;
-    const { name: userName } = user;
-    const { name: productName, size, price } = product;
+    // Extract necessary information for the email
+    const { user, productName, size, amount } = order;
+    const { name: userName, email: userEmail } = user;
 
+    // Define email options
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.CUSTOMER_SERVICE_EMAIL,
@@ -43,11 +44,12 @@ export const sendPaymentSuccessEmail = async (orderId) => {
         - Customer Name: ${userName}
         - Product: ${productName}
         - Size: ${size}
-        - Price: $${price}
+        - Price: $${amount}
         - Order ID: ${orderId}
       `,
     };
 
+    // Send the email
     await transporter.sendMail(mailOptions);
     return order;
   } catch (error) {
