@@ -34,9 +34,7 @@ export const loginUser = async (req, res) => {
     where: {
       userId: user.id,
       payment: {
-        some: {
-          status: "paid",
-        },
+        status: "paid",
       },
     },
   });
