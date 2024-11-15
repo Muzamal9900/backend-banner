@@ -11,6 +11,7 @@ export const createPayment = async (req, res) => {
     amount: Math.round(amount * 100),
     currency,
   });
+  console.log("ss", paymentIntent);
   try {
     const payment = await prisma.payment.create({
       data: {
