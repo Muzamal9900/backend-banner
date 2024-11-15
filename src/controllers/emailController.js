@@ -33,7 +33,7 @@ export const sendPaymentSuccessEmail = async (orderId) => {
     // Define email options
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+      to: process.env.RECIEVER_EMAIL,
       subject: `Order Confirmation - Order ID: ${orderId}`,
       text: `
         Banner Printing Team,
