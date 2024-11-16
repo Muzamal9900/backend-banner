@@ -28,6 +28,7 @@ export const createUser = async (req, res) => {
       email,
     },
   });
+  console.log("eee", existingUser);
 
   if (existingUser) {
     return res.status(400).json({
