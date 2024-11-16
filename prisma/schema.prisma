@@ -10,15 +10,15 @@ datasource db {
 model User {
   id                    Int      @id @default(autoincrement())
   name                  String
-  firstName             String
-  lastName              String
-  companyName           String?
+  firstName             String   
+  lastName              String   
+  companyName           String?  
   phone                 String
   streetAddress         String
   houseNumberAndStreet  String
-  flatSuiteUnit         String?
+  flatSuiteUnit         String?  
   townOrCity            String
-  county                String?
+  county                String?  
   postcode              String
   email                 String   @unique
   password              String
@@ -26,6 +26,7 @@ model User {
   orders                Order[] 
   createdAt             DateTime @default(now())
 }
+
 
 model Order {
   id           Int      @id @default(autoincrement())
